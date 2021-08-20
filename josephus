@@ -1,0 +1,53 @@
+# include "utility.h"
+
+vector <bool> AliveSoldiers;
+
+int AliveSoldiersCount()
+{
+    int ct = 0;
+
+    for(int i=0;i<AliveSoldiers.size();i++)
+    {
+        if(AliveSoldiers[i]) ct++;
+    }
+
+    return ct;
+}
+
+int NextAliveSoldierPosition(int n)
+{
+    int i = n + 1;
+
+    while(true)
+    {
+        if(i == AliveSoldiers.size()) i = 0;
+
+        if(AliveSoldiers[i]) return i;
+        else i++;
+    }
+}
+
+int LastAliveSoldierPosition(int n)
+{
+    for(int i=1;i<=n;i++) AliveSoldiers.push_back(true);
+
+    while(AliveSoldiersCount() > 1)
+    {
+        for(int i=0;i<AliveSoldiers.size();i++)
+        {
+            if(AliveSoldiers[i]) AliveSoldiers[NextAliveSoldierPosition(i)] = false;
+        }
+    }
+
+    for(int i=0;i<AliveSoldiers.size();i++)
+    {
+        if(AliveSoldiers[i]) return i+1;
+    }
+}
+
+int main()
+{
+    cout<<LastAliveSoldierPosition(41)<<endl;
+
+    return 0;
+}
